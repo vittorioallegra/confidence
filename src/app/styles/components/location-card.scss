@@ -1,0 +1,48 @@
+$card-header-height: 56px;
+$card-map-height: 300px;
+$card-bottom-space: 40px;
+
+.location-card.MuiCard-root {
+  position: relative;
+  padding-bottom: $card-bottom-space;
+
+  .MuiCardHeader-root {
+    height: $card-header-height;
+  }
+
+  .MuiCardContent-root {
+    padding: 0;
+
+    .location-card__map {
+      height: $card-map-height;
+    }
+
+    .MuiListItemIcon-root {
+      min-width: 24px;
+      padding-right: $base-padding * 2;
+    }
+  }
+
+  .location-card__details {
+    position: absolute;
+    left: 0;
+    right: 0;
+    transition: all;
+    transition-duration: 200ms;
+
+    &--less {
+      top: calc(100% - #{$card-bottom-space});
+    }
+
+    &--more {
+      top: #{$card-header-height + $base-padding * 4};
+      bottom: 0;
+    }
+
+    .MuiList-root {
+      height: calc(100% - #{$card-bottom-space});
+      overflow: auto;
+      padding: 0;
+    }
+  }
+}

@@ -1,3 +1,21 @@
 {
-  "app": {}
+  "app": {
+    "components": {
+      "locationCard": {
+        "fields": {
+          "locationId": "Location ID",
+          "locationDetails": "Location Details",
+          "locationUserRole": "Location User Role",
+          "active": "Active",
+          "newLocation": "New Location",
+          "subscriptionActive": "Subscription Active",
+          "numberofDevices": "Number of Devices"
+        },
+        "status": {
+          "true": "Yes",
+          "false": "No"
+        }
+      }
+    }
+  }
 }

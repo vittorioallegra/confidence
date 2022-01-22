@@ -4,10 +4,19 @@ import { InfiniteList, LocationCard, Spinner } from '../../components';
 import { useLocation } from '../../contexts';
 
 export const Home: React.FC = () => {
-    const { locations, isLoading, loadPage } = useLocation();
+    const { locations, loadPage } = useLocation();
+    const [isLoading, setLoading] = React.useState(false);
+
+    React.useEffect(() => {
+        const init = async () => {
+            setLoading(true);
+            await loadPage(0);
+            setLoading(false);
+        };
+        init();
+    }, []);
 
     const handleLoadNext = () => {
-        console.log('load next');
         loadPage(locations.page + 1);
     };
 

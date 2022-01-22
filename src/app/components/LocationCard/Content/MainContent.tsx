@@ -12,7 +12,7 @@ export const MainContent: React.FC<IProps> = (props) => {
     const center: Point = [props.location.latitude, props.location.longitude];
 
     return (
-        <CardContent>
+        <CardContent className="location-card__main">
             <div className="location-card__map">
                 <Map defaultCenter={center} defaultZoom={14} mouseEvents={false} touchEvents={false}>
                     <Marker width={50} anchor={center} />

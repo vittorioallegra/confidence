@@ -5,48 +5,39 @@ import { createUseFunction } from '../utils';
 
 interface ILocationContext {
     locations: ILocationList;
-    isLoading: boolean;
-    loadPage: (page: number) => void;
+    loadPage: (page: number) => Promise<void>;
 }
 
-const LocationContext = React.createContext<null | ILocationContext>(null);
+export const LocationContext = React.createContext<null | ILocationContext>(null);
 LocationContext.displayName = 'Location Context';
 
 export const LocationProvider: React.FC = ({ children }) => {
     const restApi = new RestApi();
+    const listLimit = 3;
 
-    const [isLoading, setLoading] = React.useState(true);
     const [locations, setLocation] = React.useState<ILocationList>({
         hasMore: false,
         page: 0,
         items: [],
     });
 
-    React.useEffect(() => {
-        loadPage(0);
-    }, []);
-
-    const loadPage = (page: number) => {
-        restApi.loadPage(page).then(
-            (result) => {
-                setLoading(false);
-                setLocation({
-                    ...result,
-                    items: [...locations.items, ...result.items],
-                });
-            },
-            (error) => {
-                console.error(error);
-                setLoading(false);
-            },
-        );
+    const loadPage = async (page: number) => {
+        try {
+            const result = await restApi.loadPage(page, listLimit);
+            setLocation({
+                hasMore: result.locations.length === listLimit,
+                page,
+                items: [...locations.items, ...result.locations],
+            });
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
         <LocationContext.Provider
             value={{
                 locations,
-                isLoading,
                 loadPage,
             }}
         >

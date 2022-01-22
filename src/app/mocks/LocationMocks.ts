@@ -14,6 +14,7 @@ export const mockLocation: ILocation = {
     locationName: 'locationName',
     locationDetails: 'locationDetails',
     locationType: 'locationType',
+    description: 'description',
     numberofDevices: 0,
     address: mockLocationAddress,
     locationUserRole: 'locationUserRole',

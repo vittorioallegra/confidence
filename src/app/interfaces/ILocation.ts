@@ -2,7 +2,7 @@ import { IPagination } from './IPagination';
 
 export interface ILocationAddress {
     readonly addressLine1: string;
-    readonly addressLine2: string;
+    readonly addressLine2?: string;
     readonly city: string;
     readonly state: string;
     readonly zip: string;
@@ -14,14 +14,15 @@ export interface ILocation {
     readonly locationName: string;
     readonly locationDetails: string;
     readonly locationType: string;
+    readonly description: string;
     readonly numberofDevices: number;
     readonly address: ILocationAddress;
     readonly locationUserRole: string;
     readonly active: boolean;
     readonly newLocation: boolean;
     readonly subscriptionActive: boolean;
-    readonly longitude: number;
-    readonly latitude: number;
+    readonly longitude?: number;
+    readonly latitude?: number;
 }
 
 export interface ILocations {

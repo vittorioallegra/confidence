@@ -9,13 +9,20 @@ interface IProps {
 }
 
 export const MainContent: React.FC<IProps> = (props) => {
-    const center: Point = [props.location.latitude, props.location.longitude];
+    const { latitude, longitude } = props.location;
+    const center: Point | undefined = latitude && longitude ? [latitude, longitude] : undefined;
 
     return (
         <CardContent className="location-card__main">
             <div className="location-card__map">
-                <Map defaultCenter={center} defaultZoom={14} mouseEvents={false} touchEvents={false}>
-                    <Marker width={50} anchor={center} />
+                <Map
+                    defaultCenter={center}
+                    defaultZoom={center ? 16 : 0}
+                    animate={false}
+                    mouseEvents={false}
+                    touchEvents={false}
+                >
+                    {center && <Marker width={50} anchor={center} />}
                 </Map>
             </div>
             <List>

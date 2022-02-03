@@ -1,6 +1,6 @@
-import { ILocations } from '../interfaces';
+import { ILocations, IRestApi } from '../interfaces';
 
-export class RestApi {
+export class RestApi implements IRestApi {
     private endpoint = '/v2/confidence/locations';
 
     async loadPage(page: number, limit: number): Promise<ILocations> {

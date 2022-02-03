@@ -1,35 +1,46 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Grid } from '@mui/material';
 import { InfiniteList, LocationCard, Spinner } from '../../components';
-import { useLocation } from '../../contexts';
+import { IApplicationStore, ILocationList } from '../../interfaces';
+import { appActions } from '../../store';
+import { DEFAULT_LIST_LIMIT } from '../../config';
 
-export const Home: React.FC = () => {
-    const { locations, loadPage } = useLocation();
-    const [isLoading, setLoading] = React.useState(false);
+interface IActionProps {
+    loadPage: typeof appActions.loadPageRequested;
+}
+
+interface IStoreProps {
+    locations: ILocationList;
+    isLoading: boolean;
+    hasError: boolean;
+}
+
+type IProps = IActionProps & IStoreProps;
+
+const Home: React.FC<IProps> = (props) => {
+    const [shouldDisplaySpinner, setDisplaySpinner] = React.useState(true);
 
     React.useEffect(() => {
-        const init = async () => {
-            setLoading(true);
-            await loadPage(0);
-            setLoading(false);
-        };
-        init();
+        setDisplaySpinner(true);
+        props.loadPage(0, DEFAULT_LIST_LIMIT);
     }, []);
 
     const handleLoadNext = () => {
-        loadPage(locations.page + 1);
+        setDisplaySpinner(false);
+        props.loadPage(props.locations.page + 1, DEFAULT_LIST_LIMIT);
     };
 
     return (
         <div className="home">
-            {isLoading && <Spinner />}
+            {props.isLoading && shouldDisplaySpinner && <Spinner />}
             <div className="home__header">
                 <img alt="logo" src={`${process.env.PUBLIC_URL}/images/logo.svg`} />
             </div>
             <div className="home__content">
                 <InfiniteList
-                    hasMore={locations.hasMore}
-                    items={locations.items.map((item) => (
+                    hasMore={props.locations.hasMore}
+                    items={props.locations.items.map((item) => (
                         <Grid key={item.id} item={true} xs={12} md={4}>
                             <LocationCard location={item} />
                         </Grid>
@@ -40,3 +51,15 @@ export const Home: React.FC = () => {
         </div>
     );
 };
+
+const actions: IActionProps = {
+    loadPage: appActions.loadPageRequested,
+};
+
+const mapStateToProps = (state: IApplicationStore): IStoreProps => ({
+    locations: state.app.locations,
+    isLoading: state.app.isLoading,
+    hasError: state.app.hasError,
+});
+
+export default connect(mapStateToProps, actions)(Home);

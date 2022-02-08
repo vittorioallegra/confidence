@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/v2/confidence/locations",
+      "destination": "https://dev-api.confidence.org/v2/confidence/locations"
+    }
+  ]
+}
